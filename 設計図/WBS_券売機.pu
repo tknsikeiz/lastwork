@@ -1,0 +1,19 @@
+@startwbs WBS_券売機
+title WBS_券売機
+ 
+
++[#White] タイトル画面
+**[#Aqua] 商品の購入
++++[#Yellow] ボタンで商品を選択
++++[#Yellow] 商品の合計金額を出力
++++[#Yellow] 支払いとおつりの出金
++++[#Yellow] 券を出す
+
+
+
+**[#Aqua] 管理メニュー
++++[#Yellow] 売上リセット
++++[#Yellow] 商品の価格をリセット
++++[#Yellow] 管理メニューを終了
+
+@endwbs
