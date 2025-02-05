@@ -1,0 +1,27 @@
+@startuml 券売機のアクティビティ図
+start
+#Yellow:タイトル画面を表示する;
+if (操作選択) then (購入)
+    #Yellow:商品の購入画面に進む;
+    #Yellow:ボタンで商品を選択する;
+    #Yellow:商品の合計金額を出力する;
+    #Yellow:支払いとおつりの出金をする;
+    #Yellow:券を出す;
+    stop
+else (管理)
+    #Yellow:管理メニュー画面を表示する;
+    if (管理操作選択) then (売上リセット)
+        #Yellow:売上をリセットする;
+        #Yellow:リセット後の販売数と金額を表示する;
+    elseif (価格変更)
+        #Yellow:商品の価格をリセットする;
+        #Yellow:価格を変更したい\n商品の番号を入力する;
+        #Yellow:変更金額を入力する;
+        #Yellow:最終確認をする;
+        #Yellow:変更後の商品一覧を見せる;
+    else (管理終了)
+        #Yellow:管理メニューを終了する;
+    endif
+endif
+stop
+@enduml
