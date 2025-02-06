@@ -1,0 +1,22 @@
+@startuml ユースケース_券売機
+    left to right direction
+    actor 購入者
+    actor 管理者
+    rectangle 販売システム {
+        usecase "商品を選択する" as 選択
+        usecase "商品の合計金額を表示する" as 金額出力
+        usecase "支払いとおつりを出金する" as おつり出力
+        usecase "券を発行する" as 券発行
+        usecase "売上をリセットする" as リセット
+        usecase "商品の価格を変更する" as 変更
+        usecase "管理メニューを終了する" as 終了
+    }
+    購入者 --> 選択
+    選択 --> 金額出力
+    金額出力 --> おつり出力
+    おつり出力 -l-> 券発行
+    管理者 --> リセット
+    管理者 --> 変更
+    管理者 --> 終了
+    変更 --> リセット : <<include>>
+@enduml
