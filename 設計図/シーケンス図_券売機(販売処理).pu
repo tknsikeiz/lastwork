@@ -1,0 +1,54 @@
+@startuml 券売機(販売処理)のシーケンス図
+title 券売機(販売処理)のシーケンス図
+hide footbox
+skinparam style strictuml
+skinparam sequenceMessageAlign center
+Actor ユーザー as user
+participant "券売機" as ticket_vending_machine
+participant "商品の購入" as purchasing_products
+activate user
+    user -> ticket_vending_machine: 商品の購入()
+    activate ticket_vending_machine
+    loop 商品選択
+        user -> ticket_vending_machine: ボタンで商品を選択()
+        activate purchasing_products
+        alt 無効な商品番号
+            purchasing_products -> user: 「商品番号またはcを指定してください」
+            deactivate purchasing_products
+        else 正常な商品選択
+            purchasing_products -> ticket_vending_machine: 商品の合計金額を出力()
+            activate purchasing_products
+            deactivate purchasing_products
+            deactivate purchasing_products
+        end alt
+    end loop
+    ticket_vending_machine -> user: 合計金額表示
+    user -> ticket_vending_machine: 現金投入
+    activate purchasing_products
+    alt 無効な金額（負の数など）
+        purchasing_products -> user: 「無効な金額です。」
+        deactivate purchasing_products
+        ticket_vending_machine -> user: タイトル画面へ戻る
+        deactivate ticket_vending_machine
+    else 金額不足
+        purchasing_products -> user: 「金額が不足しています。」
+        deactivate purchasing_products
+        activate ticket_vending_machine
+        ticket_vending_machine -> user: タイトル画面へ戻る
+    else 十分な金額
+        purchasing_products -> ticket_vending_machine: おつり計算
+        activate purchasing_products
+        deactivate purchasing_products
+        deactivate purchasing_products
+        ticket_vending_machine -> user: おつりを返却
+        ticket_vending_machine -> purchasing_products: 券取得()
+        activate purchasing_products
+        purchasing_products -> ticket_vending_machine: チケット発行
+        deactivate purchasing_products
+        ticket_vending_machine -> user: チケットを渡す
+        deactivate ticket_vending_machine
+        deactivate ticket_vending_machine
+    end alt
+deactivate user
+mainframe sd 販売処理
+@enduml
