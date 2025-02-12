@@ -1,0 +1,59 @@
+@startuml 券売機(管理メニュー)のシーケンス図
+title 券売機(管理メニュー)のシーケンス図
+hide footbox
+skinparam style strictuml
+skinparam sequenceMessageAlign center
+Actor ユーザー as user
+participant "券売機" as ticket_vending_machine
+participant "管理メニュー" as management_menu
+activate user
+    user -> ticket_vending_machine: 管理メニュー()
+    activate ticket_vending_machine
+        ticket_vending_machine -> management_menu: メニュー表示
+        activate management_menu
+        deactivate management_menu
+        loop 管理コード入力
+            user -> ticket_vending_machine: 管理コード入力
+            activate management_menu
+            alt 無効なコード
+                management_menu -> user: 「無効なコードです。」
+                deactivate management_menu
+            else 有効なコード
+                deactivate management_menu
+                break
+            end
+        end
+        alt 売上リセット
+            user -> ticket_vending_machine: 売上リセット選択
+            ticket_vending_machine -> management_menu: 売り上げリセット()
+            activate management_menu
+            management_menu -> ticket_vending_machine: 売上リセット完了
+            deactivate management_menu
+        end
+        alt 価格変更（リセット未実施）
+            user -> ticket_vending_machine: 価格変更選択
+            ticket_vending_machine -> management_menu: 売上リセット済み？
+            activate management_menu
+            management_menu -> user: 「売上がリセットされていないため変更できません。」
+            deactivate management_menu
+        else 価格変更（リセット済み）
+            user -> ticket_vending_machine: 商品選択＆新価格入力
+            activate management_menu
+            alt 無効な金額（負の数）
+                management_menu -> user: 「無効な金額です。」
+                deactivate management_menu
+            else 正常な金額
+                management_menu -> ticket_vending_machine: 価格変更完了
+                activate management_menu
+                deactivate management_menu
+                deactivate management_menu
+            end
+        end
+        user -> ticket_vending_machine: 管理終了
+        ticket_vending_machine -> management_menu: 管理メニューを終了()
+        activate management_menu
+        deactivate management_menu
+        ticket_vending_machine -> user: タイトル画面へ戻る
+    deactivate ticket_vending_machine
+deactivate user
+@enduml
