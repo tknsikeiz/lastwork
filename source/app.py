@@ -91,9 +91,12 @@ def list_of_product():
     print("\n======= 商品一覧 =======")
     print('商品             単価 販売数 売上金額')
     print('=======================')
+    total_sales = 0
     for product_id, product in products.items():
         print(f'{product_id}. {product["name"]} {product["price"]}円     {product["sold"]}     {product["revenue"]}円')
+        total_sales += product["revenue"] 
     print('---')
+    print(f"総売上金額: {total_sales}円")
 
 def reset_sales():
     global total_revenue
